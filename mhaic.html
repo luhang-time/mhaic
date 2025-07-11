@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理健康 AI 伴侣 - Mental Health AI Companion</title>
+    <style>
+        :root {
+            --primary-color: #4a6baf;
+            --secondary-color: #f5f7fa;
+            --accent-color: #ff7a7a;
+            --text-color: #333;
+            --light-text: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .language-toggle {
+            background: none;
+            border: 1px solid var(--primary-color);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 8px 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .language-toggle:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .main-content {
+            display: block;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #ffffff 0%, #e6f0ff 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--light-text);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.3s;
+            cursor: pointer;
+            border: none;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background-color: #3a568f;
+            transform: translateY(-2px);
+        }
+
+        .features {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h3 {
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--light-text);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            color: var(--light-text);
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .page {
+            display: none; /* All pages are hidden by default */
+            padding: 60px 0;
+        }
+
+        .content-page-container {
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-page-container h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .content-page-container p, .content-page-container li {
+            margin-bottom: 20px;
+            color: var(--light-text);
+        }
+
+        .content-page-container ul, .content-page-container ol {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+        
+        .content-page-container h4 {
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        footer {
+            background-color: white;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .footer-links li {
+            margin: 0 15px;
+        }
+
+        .footer-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--light-text);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero h2 {
+                font-size: 28px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo" onclick="showPage('home')">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSIjNGE2YmFmIj48cGF0aCBkPSJNMjU2IDhDMTE5IDggOCAxMTkgOCAyNTZzMTExIDI0OCAyNDggMjQ4IDI0OC0xMTEgMjQ4LTI0OFMzOTMgOCAyNTYgOHptMCA0NDhjLTExMC41IDAtMjAwLTg5LjUtMjAwLTIwMFMxNDUuNSA1NiAyNTYgNTZzMjAwIDg5LjUgMjAwIDIwMC04OS41IDIwMC0yMDAgMjAwem02MS44LTEwNC40bC04NC45LTYxLjdjLTMuMS0yLjMtNC45LTUuOS00LjktOS43VjExNmMwLTYuNiA1LjQtMTIgMTItMTJoMzJjNi42IDAgMTIgNS40IDEyIDEydjE0MS43bDY2LjggNDguNmM1LjQgMy45IDYuNSAxMS40IDIuNiAxNi44TDMzNC42IDM0OWMtMy45IDUuMy0xMS40IDYuNS0xNi44IDIuNnoiLz48L3N2Zz4=" alt="Logo">
+                    <h1 data-lang-key="logoTitle">心理健康 AI 伴侣</h1>
+                </div>
+                <button class="language-toggle" id="languageToggle" data-lang-key="langToggle">English</button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="hero">
+            <div class="container">
+                <h2 data-lang-key="heroTitle">您的专属心理健康助手</h2>
+                <p data-lang-key="heroSubtitle">运用先进NLP技术和CBT方法，随时随地为您提供专业情绪支持</p>
+                <button class="btn" data-lang-key="tryNowBtn" onclick="showPage('experience')">立即体验</button>
+                <button class="btn" data-lang-key="registerBtn" onclick="showPage('register')">注册体验</button>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <div class="section-title">
+                    <h3 data-lang-key="featuresTitle">核心功能</h3>
+                    <p data-lang-key="featuresSubtitle">我们提供全方位的心理健康支持，满足您的多样化需求</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div>
+                            <h4 data-lang-key="feature1Title">情绪识别与分析</h4>
+                            <p data-lang-key="feature1Desc">运用NLP技术深度剖析您的情绪状态，实时生成详细报告</p>
+                        </div>
+                        <button class="btn" data-lang-key="learnMoreBtn" onclick="showPage('emotion-analysis')">了解更多</button>
+                    </div>
+                    <div class="feature-card">
+                        <div>
+                            <h4 data-lang-key="feature2Title">CBT干预练习</h4>
+                            <p data-lang-key="feature2Desc">提供专业的认知行为疗法练习，帮助您逐步改善情绪</p>
+                        </div>
+                        <button class="btn" data-lang-key="learnMoreBtn" onclick="showPage('cbt-exercises')">了解更多</button>
+                    </div>
+                    <div class="feature-card">
+                        <div>
+                            <h4 data-lang-key="feature3Title">人工咨询转接</h4>
+                            <p data-lang-key="feature3Desc">紧急情况一键转接至专业心理咨询师</p>
+                        </div>
+                        <button class="btn" data-lang-key="learnMoreBtn" onclick="showPage('human-transfer')">了解更多</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sub Pages Container -->
+    <div id="pages-container">
+        <!-- Experience Page -->
+        <section class="page" id="experience">
+            <div class="content-page-container">
+                <h3 data-lang-key="expTitle">立即体验</h3>
+                <p data-lang-key="expDesc">无需注册，立即开始您的心理健康之旅。您可以简单地向我们的AI伴侣描述您当前的情绪状态或遇到的问题，它将立即开始分析并提供初步建议。</p>
+                <div class="form-group">
+                    <label for="experience-text" data-lang-key="expLabel">请输入您的情绪状态或遇到的问题：</label>
+                    <textarea id="experience-text" rows="5"></textarea>
+                </div>
+                <button class="btn" onclick="submitExperience()" data-lang-key="submitAnalysisBtn">提交分析</button>
+                <div id="analysis-result" style="margin-top: 20px; padding: 15px; border-radius: 5px; background-color: #f0f0f0; display: none;"></div>
+            </div>
+        </section>
+
+        <!-- Register Page -->
+        <section class="page" id="register">
+            <div class="content-page-container">
+                <h3 data-lang-key="regTitle">注册体验</h3>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="name" data-lang-key="regName">姓名：</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" data-lang-key="regEmail">电子邮箱：</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" data-lang-key="regPassword">密码：</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password" data-lang-key="regConfirmPassword">确认密码：</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                    <button type="submit" class="btn" data-lang-key="completeRegBtn">完成注册</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Other Content Pages -->
+        <section class="page" id="emotion-analysis">
+            <div class="content-page-container">
+                <h3 data-lang-key="emoTitle">情绪识别与分析</h3>
+                <p data-lang-key="emoDesc1">情绪识别与分析是我们AI伴侣的核心功能之一。通过先进的自然语言处理（NLP）技术，我们的系统能够深入分析您输入的文本，识别其中的情绪倾向，并生成详细的情绪状态报告。</p>
+                <h4 data-lang-key="emoHowTitle">如何工作？</h4>
+                <p data-lang-key="emoHowDesc">我们的系统使用基于深度学习的情绪分析算法，这些算法在大量经过标注的心理健康数据上进行了训练。当您输入文本时，系统会：</p>
+                <ol>
+                    <li data-lang-key="emoHowStep1">分析文本中的词汇、短语和语境</li>
+                    <li data-lang-key="emoHowStep2">识别与不同情绪相关的模式</li>
+                    <li data-lang-key="emoHowStep3">评估情绪强度和紧急程度</li>
+                    <li data-lang-key="emoHowStep4">生成综合的情绪状态报告</li>
+                </ol>
+                <h4 data-lang-key="emoWhyTitle">为什么重要？</h4>
+                <p data-lang-key="emoWhyDesc">许多人可能没有意识到自己的情绪状态，或者难以准确描述自己的感受。我们的情绪识别系统可以帮助您：</p>
+                <ul>
+                    <li data-lang-key="emoWhyPoint1">更清晰地了解自己的情绪</li>
+                    <li data-lang-key="emoWhyPoint2">识别潜在的心理健康问题</li>
+                    <li data-lang-key="emoWhyPoint3">及时获得适当的支持和干预</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="page" id="cbt-exercises">
+            <div class="content-page-container">
+                <h3 data-lang-key="cbtTitle">CBT干预练习</h3>
+                <p data-lang-key="cbtDesc1">认知行为疗法（CBT）是当今最有效和广泛使用的心理治疗方法之一。我们的AI伴侣内置了多种CBT练习，帮助您识别和改变负面思维模式。</p>
+                <h4 data-lang-key="cbtWhatTitle">什么是CBT？</h4>
+                <p data-lang-key="cbtWhatDesc">CBT基于一个核心理念：我们的思维影响我们的情绪和行为。通过识别和改变负面或不准确的思维模式，我们可以改善情绪反应和行为。</p>
+                <h4 data-lang-key="cbtExTitle">我们提供的练习</h4>
+                <ul>
+                    <li data-lang-key="cbtEx1">思维重构 - 学习识别和挑战负面思维</li>
+                    <li data-lang-key="cbtEx2">情绪调节技巧 - 发展管理情绪的策略</li>
+                    <li data-lang-key="cbtEx3">行为激活 - 增加积极行为以改善情绪</li>
+                    <li data-lang-key="cbtEx4">暴露疗法 - 安全地面对引发焦虑的情境</li>
+                </ul>
+                <h4 data-lang-key="cbtHowTitle">如何开始？</h4>
+                <p data-lang-key="cbtHowDesc">完成注册后，系统会根据您的情绪分析结果推荐适合的CBT练习。您也可以根据自己的需要选择不同的练习模块。</p>
+                <button class="btn" onclick="showPage('register')" data-lang-key="registerToStartBtn">注册开始</button>
+            </div>
+        </section>
+
+        <section class="page" id="human-transfer">
+            <div class="content-page-container">
+                <h3 data-lang-key="htTitle">人工咨询转接</h3>
+                <p data-lang-key="htDesc1">我们理解有时候AI的支持可能不足以应对复杂的心理状况或紧急情况。因此，我们的系统在检测到高风险情绪状态时，会提供一键转接至专业心理咨询师的服务。</p>
+                <h4 data-lang-key="htWhenTitle">何时需要人工干预？</h4>
+                <p data-lang-key="htWhenDesc">我们的系统会自动评估您的情绪状态，当检测到以下情况时，会建议转接至人工咨询：</p>
+                <ul>
+                    <li data-lang-key="htWhen1">表达自杀或自残的想法</li>
+                    <li data-lang-key="htWhen2">严重抑郁或焦虑症状</li>
+                    <li data-lang-key="htWhen3">持续的情绪危机</li>
+                    <li data-lang-key="htWhen4">复杂心理创伤的迹象</li>
+                </ul>
+                <h4 data-lang-key="htHowTitle">转接流程是怎样的？</h4>
+                <p data-lang-key="htHowDesc">当系统检测到需要人工干预的情况时：</p>
+                <ol>
+                    <li data-lang-key="htHow1">系统会立即显示警告信息</li>
+                    <li data-lang-key="htHow2">提供一键转接至专业咨询师的选项</li>
+                    <li data-lang-key="htHow3">您确认后，将被连接到可用的咨询师</li>
+                    <li data-lang-key="htHow4">咨询师会查看您的情绪分析报告，开始专业咨询</li>
+                </ol>
+                <h4 data-lang-key="htTeamTitle">我们的咨询师团队</h4>
+                <p data-lang-key="htTeamDesc">我们的咨询师均持有专业心理资质，经过严格筛选和培训，能够提供高质量的心理支持和干预。</p>
+            </div>
+        </section>
+        
+        <section class="page" id="about">
+             <div class="content-page-container">
+                <h3 data-lang-key="aboutTitle">关于我们</h3>
+                <p data-lang-key="aboutDesc1">心理健康AI伴侣是一个致力于通过先进技术改善大众心理健康的创新项目。我们的团队由心理学专家、数据科学家和软件工程师组成，共同开发这款能够精准识别情绪并提供有效干预的AI系统。</p>
+                <p data-lang-key="aboutDesc2">我们深知心理健康问题对个人和社会的影响，因此致力于创建一个便捷、高效且隐私友好的心理支持解决方案。我们的使命是让每个人都能获得专业的心理支持，无论他们身处何地。</p>
+             </div>
+        </section>
+        
+        <section class="page" id="terms">
+             <div class="content-page-container">
+                <h3 data-lang-key="termsTitle">服务条款</h3>
+                <p data-lang-key="termsDesc1">欢迎使用心理健康AI伴侣服务。在使用我们的服务之前，请仔细阅读以下条款。使用我们的服务即表示您同意遵守这些条款。</p>
+             </div>
+        </section>
+        
+        <section class="page" id="privacy">
+             <div class="content-page-container">
+                <h3 data-lang-key="privacyTitle">隐私政策</h3>
+                <p data-lang-key="privacyDesc1">我们重视您的隐私，并承诺按照本隐私政策保护您的个人信息。本政策解释了我们如何收集、使用、披露和保护您的信息。</p>
+             </div>
+        </section>
+        
+        <section class="page" id="contact">
+             <div class="content-page-container">
+                <h3 data-lang-key="contactTitle">联系我们</h3>
+                <p data-lang-key="contactDesc1">如果您有任何问题、建议或需要进一步的支持，请随时与我们联系。我们很乐意听取您的反馈，并将尽快回复您。</p>
+             </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="#" onclick="showPage('about'); return false;" data-lang-key="footerAbout">关于我们</a></li>
+                <li><a href="#" onclick="showPage('terms'); return false;" data-lang-key="footerTerms">服务条款</a></li>
+                <li><a href="#" onclick="showPage('privacy'); return false;" data-lang-key="footerPrivacy">隐私政策</a></li>
+                <li><a href="#" onclick="showPage('contact'); return false;" data-lang-key="footerContact">联系我们</a></li>
+            </ul>
+            <p class="copyright" data-lang-key="copyright">© 2025 心理健康 AI 伴侣. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- TRANSLATION DATA ---
+        const translations = {
+            'zh-CN': {
+                logoTitle: '心理健康 AI 伴侣',
+                langToggle: 'English',
+                heroTitle: '您的专属心理健康助手',
+                heroSubtitle: '运用先进NLP技术和CBT方法，随时随地为您提供专业情绪支持',
+                tryNowBtn: '立即体验',
+                registerBtn: '注册体验',
+                featuresTitle: '核心功能',
+                featuresSubtitle: '我们提供全方位的心理健康支持，满足您的多样化需求',
+                learnMoreBtn: '了解更多',
+                feature1Title: '情绪识别与分析',
+                feature1Desc: '运用NLP技术深度剖析您的情绪状态，实时生成详细报告',
+                feature2Title: 'CBT干预练习',
+                feature2Desc: '提供专业的认知行为疗法练习，帮助您逐步改善情绪',
+                feature3Title: '人工咨询转接',
+                feature3Desc: '紧急情况一键转接至专业心理咨询师',
+                expTitle: '立即体验',
+                expDesc: '无需注册，立即开始您的心理健康之旅。您可以简单地向我们的AI伴侣描述您当前的情绪状态或遇到的问题，它将立即开始分析并提供初步建议。',
+                expLabel: '请输入您的情绪状态或遇到的问题：',
+                submitAnalysisBtn: '提交分析',
+                regTitle: '注册体验',
+                regName: '姓名：',
+                regEmail: '电子邮箱：',
+                regPassword: '密码：',
+                regConfirmPassword: '确认密码：',
+                completeRegBtn: '完成注册',
+                emoTitle: '情绪识别与分析',
+                emoDesc1: '情绪识别与分析是我们AI伴侣的核心功能之一。通过先进的自然语言处理（NLP）技术，我们的系统能够深入分析您输入的文本，识别其中的情绪倾向，并生成详细的情绪状态报告。',
+                emoHowTitle: '如何工作？',
+                emoHowDesc: '我们的系统使用基于深度学习的情绪分析算法，这些算法在大量经过标注的心理健康数据上进行了训练。当您输入文本时，系统会：',
+                emoHowStep1: '分析文本中的词汇、短语和语境',
+                emoHowStep2: '识别与不同情绪相关的模式',
+                emoHowStep3: '评估情绪强度和紧急程度',
+                emoHowStep4: '生成综合的情绪状态报告',
+                emoWhyTitle: '为什么重要？',
+                emoWhyDesc: '许多人可能没有意识到自己的情绪状态，或者难以准确描述自己的感受。我们的情绪识别系统可以帮助您：',
+                emoWhyPoint1: '更清晰地了解自己的情绪',
+                emoWhyPoint2: '识别潜在的心理健康问题',
+                emoWhyPoint3: '及时获得适当的支持和干预',
+                cbtTitle: 'CBT干预练习',
+                cbtDesc1: '认知行为疗法（CBT）是当今最有效和广泛使用的心理治疗方法之一。我们的AI伴侣内置了多种CBT练习，帮助您识别和改变负面思维模式。',
+                cbtWhatTitle: '什么是CBT？',
+                cbtWhatDesc: 'CBT基于一个核心理念：我们的思维影响我们的情绪和行为。通过识别和改变负面或不准确的思维模式，我们可以改善情绪反应和行为。',
+                cbtExTitle: '我们提供的练习',
+                cbtEx1: '思维重构 - 学习识别和挑战负面思维',
+                cbtEx2: '情绪调节技巧 - 发展管理情绪的策略',
+                cbtEx3: '行为激活 - 增加积极行为以改善情绪',
+                cbtEx4: '暴露疗法 - 安全地面对引发焦虑的情境',
+                cbtHowTitle: '如何开始？',
+                cbtHowDesc: '完成注册后，系统会根据您的情绪分析结果推荐适合的CBT练习。您也可以根据自己的需要选择不同的练习模块。',
+                registerToStartBtn: '注册开始',
+                htTitle: '人工咨询转接',
+                htDesc1: '我们理解有时候AI的支持可能不足以应对复杂的心理状况或紧急情况。因此，我们的系统在检测到高风险情绪状态时，会提供一键转接至专业心理咨询师的服务。',
+                htWhenTitle: '何时需要人工干预？',
+                htWhenDesc: '我们的系统会自动评估您的情绪状态，当检测到以下情况时，会建议转接至人工咨询：',
+                htWhen1: '表达自杀或自残的想法',
+                htWhen2: '严重抑郁或焦虑症状',
+                htWhen3: '持续的情绪危机',
+                htWhen4: '复杂心理创伤的迹象',
+                htHowTitle: '转接流程是怎样的？',
+                htHowDesc: '当系统检测到需要人工干预的情况时：',
+                htHow1: '系统会立即显示警告信息',
+                htHow2: '提供一键转接至专业咨询师的选项',
+                htHow3: '您确认后，将被连接到可用的咨询师',
+                htHow4: '咨询师会查看您的情绪分析报告，开始专业咨询',
+                htTeamTitle: '我们的咨询师团队',
+                htTeamDesc: '我们的咨询师均持有专业心理资质，经过严格筛选和培训，能够提供高质量的心理支持和干预。',
+                aboutTitle: '关于我们',
+                aboutDesc1: '心理健康AI伴侣是一个致力于通过先进技术改善大众心理健康的创新项目。我们的团队由心理学专家、数据科学家和软件工程师组成，共同开发这款能够精准识别情绪并提供有效干预的AI系统。',
+                aboutDesc2: '我们深知心理健康问题对个人和社会的影响，因此致力于创建一个便捷、高效且隐私友好的心理支持解决方案。我们的使命是让每个人都能获得专业的心理支持，无论他们身处何地。',
+                termsTitle: '服务条款',
+                termsDesc1: '欢迎使用心理健康AI伴侣服务。在使用我们的服务之前，请仔细阅读以下条款。使用我们的服务即表示您同意遵守这些条款。',
+                privacyTitle: '隐私政策',
+                privacyDesc1: '我们重视您的隐私，并承诺按照本隐私政策保护您的个人信息。本政策解释了我们如何收集、使用、披露和保护您的信息。',
+                contactTitle: '联系我们',
+                contactDesc1: '如果您有任何问题、建议或需要进一步的支持，请随时与我们联系。我们很乐意听取您的反馈，并将尽快回复您。',
+                footerAbout: '关于我们',
+                footerTerms: '服务条款',
+                footerPrivacy: '隐私政策',
+                footerContact: '联系我们',
+                copyright: '© 2025 心理健康 AI 伴侣. 保留所有权利.'
+            },
+            'en-US': {
+                logoTitle: 'Mental Health AI Companion',
+                langToggle: '中文',
+                heroTitle: 'Your Dedicated Mental Health Assistant',
+                heroSubtitle: 'Using advanced NLP technology and CBT methods to provide you with professional emotional support anytime, anywhere',
+                tryNowBtn: 'Try Now',
+                registerBtn: 'Register Now',
+                featuresTitle: 'Core Features',
+                featuresSubtitle: 'We provide comprehensive mental health support to meet your diverse needs',
+                learnMoreBtn: 'Learn More',
+                feature1Title: 'Emotion Recognition & Analysis',
+                feature1Desc: 'Use NLP technology to deeply analyze your emotional state and generate real-time reports',
+                feature2Title: 'CBT Intervention Exercises',
+                feature2Desc: 'Provide professional cognitive-behavioral therapy exercises to help you gradually improve your emotions',
+                feature3Title: 'Human Consultant Transfer',
+                feature3Desc: 'One-click transfer to professional psychological consultants in emergency situations',
+                expTitle: 'Try Now',
+                expDesc: 'No registration required. Start your mental health journey now. Simply describe your current emotional state or problems to our AI companion, and it will immediately begin analyzing and providing initial recommendations.',
+                expLabel: 'Please enter your emotional state or problems:',
+                submitAnalysisBtn: 'Submit Analysis',
+                regTitle: 'Register Now',
+                regName: 'Name:',
+                regEmail: 'Email:',
+                regPassword: 'Password:',
+                regConfirmPassword: 'Confirm Password:',
+                completeRegBtn: 'Complete Registration',
+                emoTitle: 'Emotion Recognition & Analysis',
+                emoDesc1: 'Emotion recognition and analysis is one of the core features of our AI companion. Through advanced natural language processing (NLP) technology, our system can deeply analyze the text you input, identify emotional tendencies, and generate detailed emotional status reports.',
+                emoHowTitle: 'How It Works?',
+                emoHowDesc: 'Our system uses deep learning-based emotion analysis algorithms trained on a large amount of annotated mental health data. When you input text, the system will:',
+                emoHowStep1: 'Analyze the words, phrases, and context in the text',
+                emoHowStep2: 'Identify patterns associated with different emotions',
+                emoHowStep3: 'Assess emotional intensity and urgency',
+                emoHowStep4: 'Generate a comprehensive emotional status report',
+                emoWhyTitle: 'Why Is It Important?',
+                emoWhyDesc: 'Many people may not realize their emotional state or have difficulty accurately describing their feelings. Our emotion recognition system can help you:',
+                emoWhyPoint1: 'Gain a clearer understanding of your emotions',
+                emoWhyPoint2: 'Identify potential mental health issues',
+                emoWhyPoint3: 'Receive timely and appropriate support and intervention',
+                cbtTitle: 'CBT Intervention Exercises',
+                cbtDesc1: 'Cognitive Behavioral Therapy (CBT) is one of the most effective and widely used psychological treatment methods today. Our AI companion includes various CBT exercises to help you identify and change negative thinking patterns.',
+                cbtWhatTitle: 'What is CBT?',
+                cbtWhatDesc: 'CBT is based on a core concept: our thoughts influence our emotions and behaviors. By identifying and changing negative or inaccurate thinking patterns, we can improve emotional responses and behaviors.',
+                cbtExTitle: 'Exercises We Provide',
+                cbtEx1: 'Cognitive Restructuring - Learn to identify and challenge negative thoughts',
+                cbtEx2: 'Emotion Regulation Skills - Develop strategies for managing emotions',
+                cbtEx3: 'Behavioral Activation - Increase positive behaviors to improve mood',
+                cbtEx4: 'Exposure Therapy - Face anxiety-provoking situations safely',
+                cbtHowTitle: 'How to Start?',
+                cbtHowDesc: 'After registration, the system will recommend suitable CBT exercises based on your emotional analysis results. You can also select different exercise modules according to your needs.',
+                registerToStartBtn: 'Register to Start',
+                htTitle: 'Human Consultant Transfer',
+                htDesc1: 'We understand that sometimes AI support may not be sufficient to address complex psychological conditions or emergency situations. Therefore, our system provides a one-click transfer service to professional psychological consultants when high-risk emotional states are detected.',
+                htWhenTitle: 'When Is Human Intervention Needed?',
+                htWhenDesc: 'Our system automatically evaluates your emotional state and will recommend a transfer to human consultation when the following situations are detected:',
+                htWhen1: 'Expressing suicidal or self-harming thoughts',
+                htWhen2: 'Severe symptoms of depression or anxiety',
+                htWhen3: 'Persistent emotional crisis',
+                htWhen4: 'Signs of complex psychological trauma',
+                htHowTitle: 'What Is the Transfer Process?',
+                htHowDesc: 'When the system detects a situation requiring human intervention:',
+                htHow1: 'The system will immediately display a warning message',
+                htHow2: 'Provide an option for one-click transfer to a professional consultant',
+                htHow3: 'After your confirmation, you will be connected to an available consultant',
+                htHow4: 'The consultant will review your emotional analysis report and begin professional consultation',
+                htTeamTitle: 'Our Consultant Team',
+                htTeamDesc: 'Our consultants are all professionally qualified in psychology, have undergone rigorous screening and training, and are able to provide high-quality psychological support and intervention.',
+                aboutTitle: 'About Us',
+                aboutDesc1: 'Mental Health AI Companion is an innovative project dedicated to improving public mental health through advanced technology. Our team consists of psychology experts, data scientists, and software engineers who jointly developed this AI system that can accurately identify emotions and provide effective interventions.',
+                aboutDesc2: 'We are fully aware of the impact of mental health issues on individuals and society, which is why we are committed to creating a convenient, efficient, and privacy-friendly psychological support solution. Our mission is to make professional psychological support available to everyone, no matter where they are.',
+                termsTitle: 'Terms of Service',
+                termsDesc1: 'Welcome to Mental Health AI Companion Services. Before using our services, please carefully read the following terms. Using our services indicates that you agree to comply with these terms.',
+                privacyTitle: 'Privacy Policy',
+                privacyDesc1: 'We value your privacy and are committed to protecting your personal information in accordance with this Privacy Policy. This policy explains how we collect, use, disclose, and protect your information.',
+                contactTitle: 'Contact Us',
+                contactDesc1: 'If you have any questions, suggestions, or need further support, please feel free to contact us. We are happy to hear your feedback and will respond to you as soon as possible.',
+                footerAbout: 'About Us',
+                footerTerms: 'Terms of Service',
+                footerPrivacy: 'Privacy Policy',
+                footerContact: 'Contact Us',
+                copyright: '© 2025 Mental Health AI Companion. All rights reserved.'
+            }
+        };
+
+        // --- CORE LOGIC ---
+        let currentLanguage = 'zh-CN';
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            currentLanguage = lang;
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        function showPage(pageId) {
+            const mainContent = document.getElementById('main-content');
+            const allPages = document.querySelectorAll('#pages-container .page');
+
+            if (pageId === 'home') {
+                mainContent.style.display = 'block';
+                allPages.forEach(p => p.style.display = 'none');
+            } else {
+                mainContent.style.display = 'none';
+                allPages.forEach(p => {
+                    p.style.display = p.id === pageId ? 'block' : 'none';
+                });
+            }
+            window.scrollTo(0, 0);
+        }
+
+        // --- EVENT LISTENERS ---
+        document.getElementById('languageToggle').addEventListener('click', () => {
+            const newLang = currentLanguage === 'zh-CN' ? 'en-US' : 'zh-CN';
+            setLanguage(newLang);
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const message = currentLanguage === 'zh-CN' 
+                ? '注册功能将在实际应用中连接到后端服务。'
+                : 'Registration functionality would be connected to a backend service in a real application.';
+            alert(message);
+            showPage('home');
+        });
+
+        function submitExperience() {
+            const text = document.getElementById('experience-text').value;
+            if (text.trim() === '') {
+                const message = currentLanguage === 'zh-CN'
+                    ? '请输入您的情绪状态或遇到的问题'
+                    : 'Please enter your emotional state or problems';
+                alert(message);
+                return;
+            }
+
+            const resultElement = document.getElementById('analysis-result');
+            resultElement.style.display = 'block';
+            
+            if (currentLanguage === 'zh-CN') {
+                resultElement.innerHTML = `
+                    <p><strong>分析结果：</strong></p>
+                    <p>根据您提供的信息，系统检测到您可能有中度焦虑情绪。</p>
+                    <p><strong>建议：</strong>尝试我们的CBT练习来帮助您缓解焦虑。如果这种感觉持续存在或加剧，请考虑联系专业心理咨询师。</p>
+                `;
+            } else {
+                resultElement.innerHTML = `
+                    <p><strong>Analysis Result:</strong></p>
+                    <p>Based on the information you provided, the system has detected possible moderate anxiety.</p>
+                    <p><strong>Recommendation:</strong> Try our CBT exercises to help alleviate anxiety. If this feeling persists or intensifies, please consider contacting a professional psychological consultant.</p>
+                `;
+            }
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            setLanguage('zh-CN'); // Set initial language
+            showPage('home'); // Show home page on load
+        };
+    </script>
+</body>
+</html>
